@@ -4,9 +4,11 @@
   "license": "MIT",
   "scripts": {
     "build:api": "nx build api",
-    "build:eclair_demo": "nx build eclair_demo",
-    "build:mobile-app": "nx build mobile-app",
-    "serve": "npx nx serve eclair_demo"
+    "build:web": "nx build eclair_demo",
+    "build:ionic": "nx build mobile-app",
+    "start:api": "npx nx serve api",
+    "start:web": "npx nx serve eclair_demo",
+    "start:ionic": "npx nx serve mobile-app"
   },
   "private": true,
   "dependencies": {
