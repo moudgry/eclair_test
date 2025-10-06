@@ -8,8 +8,7 @@
     "build:ionic": "nx build mobile-app",
     "start:api": "npx nx serve api",
     "start:web": "npx nx serve eclair_demo",
-    "start:ionic": "npx nx serve mobile-app",
-    "test": "nx"
+    "start:ionic": "npx nx serve mobile-app"
   },
   "private": true,
   "dependencies": {
