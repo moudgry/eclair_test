@@ -9,7 +9,7 @@
     "start:api": "npx nx serve api",
     "start:web": "npx nx serve eclair_demo",
     "start:ionic": "npx nx serve mobile-app",
-    "test1":"npx2"
+    "test1":"npm ci"
   },
   "private": true,
   "dependencies": {
