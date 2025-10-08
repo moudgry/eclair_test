@@ -19,5 +19,6 @@
     }
   ],
   "installCommand": "npm ci",
-  "buildCommand": "npx nx build api --prod"
+  "buildCommand": "npx nx build api --prod",
+  "outputDirectory": "dist/apps/api"
 }
