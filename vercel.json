@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "installCommand": "npm ci",
   "buildCommand": "npx nx build eclair_demo --prod",
-  "outputDirectory": "dist/apps/eclair_demo"
+  "outputDirectory": "dist/apps/eclair_demo",
+  "installCommand": "npm ci"
 }
