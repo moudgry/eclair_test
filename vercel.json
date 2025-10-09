@@ -1,6 +1,24 @@
 {
   "version": 2,
-  "buildCommand": "npx nx build eclair_demo --prod",
-  "outputDirectory": "dist/apps/eclair_demo",
+  "builds": [
+    {
+      "src": "apps/api/src/main.ts",
+      "use": "@vercel/node",
+      "config": {
+        "maxLambdaSize": "15mb",
+        "includeFiles": [
+          "dist/apps/api/**"
+        ]
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "apps/api/src/main.ts"
+    }
+  ],
+  "buildCommand": "npx nx build api --prod",
+  "outputDirectory": "dist/apps/api",
   "installCommand": "npm ci"
 }
