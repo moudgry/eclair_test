@@ -18,7 +18,7 @@
       "dest": "apps/api/src/main.ts"
     }
   ],
-  "installCommand": "npm ci",
+  "installCommand": "npm install",
   "buildCommand": "npx nx build api --prod",
   "outputDirectory": "dist/apps/api"
 }
