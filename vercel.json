@@ -18,7 +18,7 @@
       "dest": "apps/api/src/main.ts"
     }
   ],
-  "installCommand": "npm install",
+  "installCommand": "npm ci --loglevel verbose",
   "buildCommand": "npx nx build api --prod",
   "outputDirectory": "dist/apps/api"
 }
