@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "npx nx build eclair_demo --prod",
-  "outputDirectory": "dist/apps/eclair_demo",
+  "buildCommand": "npx nx build angular-web-app --prod",
+  "outputDirectory": "dist/apps/angular-web-app",
   "installCommand": "npm install"
 }
