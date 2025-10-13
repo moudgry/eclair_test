@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/products"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Your Cart</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="cart$ | async as cart">
+    <app-cart-item
+      *ngFor="let item of cart.items; trackBy: trackByCartItemId"
+      [item]="item"
+      (remove)="removeItem($event)"
+      (quantityChange)="updateQuantity($event.id, $event.quantity)">
+    </app-cart-item>
+
+    <ion-item *ngIf="!cart.items.length">
+      <ion-label class="ion-text-center">Your cart is empty</ion-label>
+    </ion-item>
+
+    <ion-item *ngIf="cart.items.length">
+      <ion-label>Total</ion-label>
+      <ion-note slot="end">{{ cart.total | currency }}</ion-note>
+    </ion-item>
+  </ion-list>
+
+  <!--
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="(cart$ | async)?.items?.length">
+    <ion-fab-button (click)="checkout()" color="primary">
+      Checkout
+    </ion-fab-button>
+  </ion-fab>
+  -->
+</ion-content>

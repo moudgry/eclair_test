@@ -1,0 +1,8 @@
+.resend-section {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.resend-section p {
+  color: var(--ion-color-medium);
+}

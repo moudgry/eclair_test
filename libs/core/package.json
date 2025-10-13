@@ -1,0 +1,22 @@
+{
+  "name": "@eclair_commerce/core",
+  "version": "1.0.0",
+  "type": "commonjs",
+  "peerDependencies": {
+    "@angular/common": "~20.3.4",
+    "@angular/core": "~20.3.4",
+    "rxjs": "~7.8.0",
+    "jest-preset-angular": "^14.6.1",
+    "tslib": "^2.3.0"
+  },
+  "ngPackage": {
+    "lib": {
+      "entryFile": "src/index.ts"
+    },
+    "whitelistedNonPeerDependencies": [
+      "."
+    ]
+  },
+  "sideEffects": false,
+  "dependencies": {}
+}

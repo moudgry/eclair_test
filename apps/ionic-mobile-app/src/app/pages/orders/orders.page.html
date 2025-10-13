@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>My Orders</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="loadOrders($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-list>
+    <ion-item-sliding *ngFor="let order of orders; trackBy: trackByOrderId">
+      <ion-item [routerLink]="['/order-details', order.id]">
+        <ion-label>
+          <h2>Order #{{ order.id }}</h2>
+          <p>Date: {{ formatDate(order.createdAt || '') }}</p>
+          <p>Status: <ion-badge [color]="getStatusColor(order.status)">
+            {{ order.status }}
+          </ion-badge></p>
+        </ion-label>
+        <ion-note slot="end">{{ order.total | currency }}</ion-note>
+      </ion-item>
+
+      <ion-item-options side="end">
+        <ion-item-option color="danger" (click)="cancelOrder(order.id)">
+          <ion-icon name="trash" slot="icon-only"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+
+    <ion-item *ngIf="!orders.length && !isLoading">
+      <ion-label class="ion-text-center">No orders found</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-infinite-scroll (ionInfinite)="loadMoreOrders($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

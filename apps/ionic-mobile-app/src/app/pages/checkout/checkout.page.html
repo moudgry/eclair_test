@@ -1,0 +1,86 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/cart"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Checkout</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="checkoutForm" (ngSubmit)="placeOrder()">
+    <ion-list>
+      <!-- Shipping Information -->
+      <ion-list-header>
+        <ion-label>Shipping Information</ion-label>
+      </ion-list-header>
+
+      <ion-item>
+        <ion-label position="floating">Full Name</ion-label>
+        <ion-input formControlName="fullName"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Address</ion-label>
+        <ion-input formControlName="address"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">City</ion-label>
+        <ion-input formControlName="city"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">ZIP Code</ion-label>
+        <ion-input formControlName="zipCode" type="number"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Phone</ion-label>
+        <ion-input formControlName="phone" type="tel"></ion-input>
+      </ion-item>
+
+      <!-- Payment Method -->
+      <ion-list-header>
+        <ion-label>Payment Method</ion-label>
+      </ion-list-header>
+
+      <ion-radio-group formControlName="paymentMethod">
+        <ion-item *ngFor="let method of paymentMethods">
+          <ion-label>{{ method }}</ion-label>
+          <ion-radio slot="start" [value]="method"></ion-radio>
+        </ion-item>
+      </ion-radio-group>
+
+      <!-- Order Summary -->
+      <ion-list-header>
+        <ion-label>Order Summary</ion-label>
+      </ion-list-header>
+
+      <ion-item *ngFor="let item of cart?.items; trackBy: trackByCartItemId">
+        <ion-label>
+          {{ item.product.name }} × {{ item.quantity }}
+          <p>{{ item.product.price | currency }}</p>
+        </ion-label>
+        <ion-note slot="end">
+          {{ item.product.price * item.quantity | currency }}
+        </ion-note>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Total</ion-label>
+        <ion-note slot="end" color="primary">
+          <strong>{{ cart?.total | currency }}</strong>
+        </ion-note>
+      </ion-item>
+    </ion-list>
+
+    <ion-button
+      type="submit"
+      expand="block"
+      size="large"
+      [disabled]="checkoutForm.invalid || !cart?.items?.length">
+      Place Order
+    </ion-button>
+  </form>
+</ion-content>

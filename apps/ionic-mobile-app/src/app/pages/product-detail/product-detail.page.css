@@ -1,0 +1,148 @@
+.image-gallery {
+  height: 250px;
+  margin-bottom: 16px;
+}
+
+.image-gallery ion-img {
+  height: 100%;
+  object-fit: cover;
+}
+
+.product-info-container {
+  padding: 16px;
+}
+
+.price-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0;
+}
+
+.current-price {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--ion-color-primary);
+}
+
+.original-price {
+  font-size: 1rem;
+  text-decoration: line-through;
+  color: var(--ion-color-medium);
+}
+
+.rating-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.stars {
+  display: flex;
+  margin-right: 8px;
+}
+
+.stars.large {
+  font-size: 1.5rem;
+}
+
+.stars ion-icon {
+  color: #ffc409;
+}
+
+.rating-value {
+  font-weight: bold;
+  margin-right: 4px;
+}
+
+.review-count {
+  color: var(--ion-color-medium);
+}
+
+.overall-rating {
+  text-align: center;
+  margin-bottom: 24px;
+  padding: 16px;
+  background-color: var(--ion-color-light);
+  border-radius: 8px;
+}
+
+.rating-summary h2 {
+  margin: 8px 0 4px;
+}
+
+.review-item {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--ion-color-light-shade);
+}
+
+.review-item:last-child {
+  border-bottom: none;
+}
+
+.review-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.reviewer-info {
+  margin-left: 12px;
+}
+
+.reviewer-info h3 {
+  margin: 0 0 4px;
+  font-size: 1rem;
+}
+
+.review-content h4 {
+  margin: 0 0 4px;
+  font-size: 1rem;
+}
+
+.review-date {
+  color: var(--ion-color-medium);
+  font-size: 0.875rem;
+  margin: 0 0 8px;
+}
+
+.review-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.helpful-count {
+  font-size: 0.875rem;
+  color: var(--ion-color-medium);
+}
+
+.action-buttons {
+  display: flex;
+}
+
+swiper-container {
+  padding: 8px 0;
+}
+
+swiper-slide {
+  height: auto;
+}
+
+/* Ensure the write review button is visible */
+ion-content {
+  --padding-bottom: 80px; /* Add padding to make room for footer */
+}
+
+/* Add a footer for the write review button */
+.footer-button {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 16px;
+  background: var(--ion-background-color);
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}

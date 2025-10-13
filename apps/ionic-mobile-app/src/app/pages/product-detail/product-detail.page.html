@@ -1,0 +1,217 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/products"></ion-back-button>
+    </ion-buttons>
+    <!--<ion-title>{{ product?.name || 'Product Details' }}</ion-title>-->
+    <ion-title>{{ product!.name || 'Loading...' }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="shareProduct()">
+        <ion-icon slot="icon-only" name="share-social-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="toggleWatchlist()">
+        <ion-icon
+          slot="icon-only"
+          [name]="isInWatchlist ? 'heart' : 'heart-outline'"
+          [color]="isInWatchlist ? 'danger' : ''">
+        </ion-icon>
+      </ion-button>
+      <ion-button routerLink="/cart">
+        <ion-icon slot="icon-only" name="cart-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<!--<ion-content *ngIf="product">
+  <ion-img [src]="product.imageUrl || 'assets/images/placeholder.png'"></ion-img>
+
+  <ion-list>
+    <ion-item>
+      <ion-label>
+        <h1>{{ product.name }}</h1>
+        <h2>{{ product.price | currency }}</h2>
+        <p>{{ product.description }}</p>
+      </ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Quantity</ion-label>
+      <ion-input
+        type="number"
+        [(ngModel)]="quantity"
+        min="1"
+        style="text-align: right">
+      </ion-input>
+    </ion-item>
+  </ion-list>
+
+</ion-content>-->
+
+<ion-content *ngIf="product">
+  <!-- Image Gallery -->
+  <div class="image-gallery">
+    <swiper-container [config]="swiperConfig">
+      <swiper-slide *ngFor="let image of productImages">
+        <ion-img [src]="image || 'assets/images/placeholder.png'"></ion-img>
+      </swiper-slide>
+    </swiper-container>
+  </div>
+
+  <!-- Product Info -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>{{ product.name }}</ion-card-title>
+      <ion-card-subtitle>
+        <div class="price-container">
+          <span class="current-price">{{ product.price | currency }}</span>
+          <span *ngIf="product.discount && product.discount > 0" class="original-price">
+            {{ product.originalPrice | currency }}
+          </span>
+          <ion-badge *ngIf="product.discount && product.discount > 0" color="danger">
+            {{ product.discount }}% OFF
+          </ion-badge>
+        </div>
+      </ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <!-- Rating -->
+      <div class="rating-container" *ngIf="product.rating">
+        <div class="stars">
+          <ion-icon
+            *ngFor="let star of getRatingStars(product.rating); let i = index"
+            [name]="star === 1 ? 'star' : (star === 0.5 ? 'star-half' : 'star-outline')">
+          </ion-icon>
+        </div>
+        <span class="rating-value">{{ product.rating | number:'1.1-1' }}</span>
+        <span class="review-count">({{ product.reviewCount || 0 }} reviews)</span>
+      </div>
+
+      <!-- Description -->
+      <p>{{ product.description }}</p>
+
+      <!-- Quantity Selector -->
+      <ion-item>
+        <ion-label>Quantity</ion-label>
+        <ion-input
+          type="number"
+          [(ngModel)]="quantity"
+          min="1"
+          style="text-align: right">
+        </ion-input>
+      </ion-item>
+
+      <!-- Add to Cart Button -->
+      <ion-button expand="block" (click)="addToCart()">
+        <ion-icon slot="start" name="cart-outline"></ion-icon>
+        Add to Cart
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Similar Products -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Similar Products</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <swiper-container [config]="similarSwiperConfig">
+        <swiper-slide *ngFor="let product of similarProducts; trackBy: trackByProductId">
+          <app-product-card [product]="product"></app-product-card>
+        </swiper-slide>
+      </swiper-container>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Recommended For You -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Recommended For You</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <swiper-container [config]="similarSwiperConfig">
+        <swiper-slide *ngFor="let product of recommendedProducts; trackBy: trackByProductId">
+          <app-product-card [product]="product"></app-product-card>
+        </swiper-slide>
+      </swiper-container>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Reviews Section -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Customer Reviews</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <!-- Overall Rating Summary -->
+      <div class="overall-rating" *ngIf="product.rating">
+        <div class="rating-summary">
+          <div class="stars large">
+            <ion-icon
+              *ngFor="let star of getRatingStars(product.rating); let i = index"
+              [name]="star === 1 ? 'star' : (star === 0.5 ? 'star-half' : 'star-outline')">
+            </ion-icon>
+          </div>
+          <h2>{{ product.rating | number:'1.1-1' }} out of 5</h2>
+          <p>{{ product.reviewCount || 0 }} reviews</p>
+        </div>
+      </div>
+
+      <!-- Individual Reviews -->
+      <div class="reviews-list">
+        <div *ngFor="let review of (showAllReviews ? reviews : reviews.slice(0, 2)); trackBy: trackByReviewId" class="review-item">
+          <div class="review-header">
+            <ion-avatar>
+              <img [src]="review.userPhoto || 'assets/images/avatars/default.jpg'" alt="UserPhoto" />
+            </ion-avatar>
+            <div class="reviewer-info">
+              <h3>{{ review.userName }}</h3>
+              <div class="stars">
+                <ion-icon
+                  *ngFor="let star of getRatingStars(review.rating); let i = index"
+                  [name]="star === 1 ? 'star' : (star === 0.5 ? 'star-half' : 'star-outline')">
+                </ion-icon>
+              </div>
+            </div>
+          </div>
+
+          <div class="review-content">
+            <h4>{{ review.title }}</h4>
+            <p class="review-date">{{ formatDate(review.date) }}</p>
+            <p>{{ review.comment }}</p>
+          </div>
+
+          <div class="review-actions">
+            <span class="helpful-count">{{ review.helpful }} people found this helpful</span>
+            <div class="action-buttons">
+              <ion-button fill="clear" size="small" (click)="markHelpful(review)">
+                Helpful
+              </ion-button>
+              <ion-button fill="clear" size="small" (click)="shareReview(review)">
+                <ion-icon slot="icon-only" name="arrow-redo-outline"></ion-icon>
+              </ion-button>
+              <ion-button fill="clear" size="small" (click)="reportReview(review)">
+                <ion-icon slot="icon-only" name="flag-outline"></ion-icon>
+              </ion-button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Show More/Less Button -->
+      <ion-button *ngIf="reviews.length > 2" fill="clear" expand="block" (click)="showAllReviews = !showAllReviews">
+        {{ showAllReviews ? 'Show Less Reviews' : 'Show More Reviews' }}
+        <ion-icon slot="end" [name]="showAllReviews ? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
+      </ion-button>
+
+      <!-- Write Review Button -->
+      <div class="footer-button">
+        <ion-button expand="block">
+          <ion-icon slot="start" name="create-outline"></ion-icon>
+          Write a Review
+        </ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

@@ -1,0 +1,232 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-searchbar
+      [(ngModel)]="searchQuery"
+      (ionInput)="onSearchInput($event)"
+      placeholder="Search products, categories, and more..."
+      animated="true"
+      debounce="300">
+    </ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="home-content">
+  <!--<ion-img src="assets/images/placeholder.png" alt="test"></ion-img>-->
+  <!-- Auto-scrolling Banner with Swiper -->
+  <div class="banner-container">
+    <!--
+    <swiper-container
+      #swiper
+      [config]="swiperConfig"
+      init="false"
+      class="banner-swiper">
+      <swiper-slide *ngFor="let banner of banners">
+        <div class="banner-slide">
+          <img [src]="banner.image" [alt]="banner.title" />
+          <div class="banner-content" *ngIf="banner.title">
+            <h2>{{ banner.title }}</h2>
+            <p>{{ banner.description }}</p>
+            <ion-button *ngIf="banner.cta" fill="solid" [routerLink]="banner.link">
+              {{ banner.cta }}
+            </ion-button>
+          </div>
+        </div>
+      </swiper-slide>
+    </swiper-container>
+    -->
+
+    <swiper-container
+      #swiper
+      [config]="swiperConfig"
+      init="true"
+      class="banner-swiper"
+
+      slidesPerView="1"
+      spaceBetween="0"
+      loop="true"
+      autoplay="true"
+      pagination="true"
+      >
+
+      <!--<swiper-slide>Slide 1 Content</swiper-slide>
+      <swiper-slide>Slide 2 Content</swiper-slide>
+      <swiper-slide>Slide 3 Content</swiper-slide>-->
+      <swiper-slide *ngFor="let banner of banners">
+        <div class="banner-slide">
+          <ion-img [src]="banner.image" [alt]="banner.title"></ion-img>
+          <div class="banner-content" *ngIf="banner.title">
+            <h2>{{ banner.title }}</h2>
+            <p>{{ banner.description }}</p>
+            <ion-button *ngIf="banner.cta" fill="solid" [routerLink]="banner.link">
+              {{ banner.cta }}
+            </ion-button>
+          </div>
+        </div>
+      </swiper-slide>
+
+    </swiper-container>
+
+  </div>
+
+  <!-- Best Sales in Games Panel -->
+  <div class="panel">
+    <div class="panel-header">
+      <h2 class="panel-title">Best Sales in Games</h2>
+      <ion-button fill="clear" routerLink="/products" class="shop-button">
+        Shop Now
+        <ion-icon slot="end" name="arrow-forward"></ion-icon>
+      </ion-button>
+    </div>
+    <div class="panel-content">
+      <div class="product-grid">
+        <div class="product-card" *ngFor="let product of gameProducts" [routerLink]="['/products', product.id]">
+          <div class="product-image">
+            <img [src]="product.imageUrl || 'assets/images/placeholder.png'" [alt]="product.name" />
+            <div class="discount-tag discount-badge" *ngIf="product.discount && product.discount > 0">
+              -{{ product.discount }}%
+            </div>
+          </div>
+          <div class="product-info">
+            <h3 class="product-name">{{ product.name }}</h3>
+            <div class="product-price">
+              <span class="current-price">
+                {{ product.price | currency }}
+              </span>
+              <span class="original-price" *ngIf="product.discount && product.discount > 0">
+                {{ product.originalPrice | currency }}
+              </span>
+            </div>
+            <div class="product-rating" *ngIf="product.rating">
+              <div class="stars">
+                <ion-icon
+                  *ngFor="let star of getRatingStars(product.rating); let i = index"
+                  [name]="star === 1 ? 'star' : (star === 0.5 ? 'star-half' : 'star-outline')">
+                </ion-icon>
+              </div>
+              <span class="rating-count">({{ product.reviewCount }})</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Large Electrical Appliances Panel -->
+  <div class="panel">
+    <div class="panel-header">
+      <h2 class="panel-title">Large Electrical Appliances</h2>
+      <ion-button fill="clear" routerLink="/categories" class="shop-button">
+        Shop More
+        <ion-icon slot="end" name="arrow-forward"></ion-icon>
+      </ion-button>
+    </div>
+    <div class="panel-content">
+      <div class="category-grid">
+        <div class="category-card" *ngFor="let category of applianceCategories" [routerLink]="['/categories', category.id]">
+          <div class="category-image">
+            <img [src]="category.imageUrl || 'assets/images/placeholder.png'" [alt]="category.name" />
+          </div>
+          <h3 class="category-name">{{ category.name }}</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Featured Products in Electronics Panel -->
+  <div class="panel">
+    <div class="panel-header">
+      <h2 class="panel-title">Featured Products in Electronics</h2>
+      <ion-button fill="clear" routerLink="/products" class="shop-button">
+        Shop Now
+        <ion-icon slot="end" name="arrow-forward"></ion-icon>
+      </ion-button>
+    </div>
+    <div class="panel-content">
+      <div class="product-grid">
+        <div class="product-card" *ngFor="let product of electronicProducts" [routerLink]="['/products', product.id]">
+          <div class="product-image">
+            <img [src]="product.imageUrl || 'assets/images/placeholder.png'" [alt]="product.name" />
+            <div class="discount-tag discount-badge" *ngIf="product.discount && product.discount > 0">
+              -{{ product.discount }}%
+            </div>
+          </div>
+          <div class="product-info">
+            <h3 class="product-name">{{ product.name }}</h3>
+            <div class="product-price">
+              <span class="current-price">
+                {{ product.price | currency }}
+              </span>
+              <span class="original-price" *ngIf="product.discount && product.discount > 0">
+                {{ product.originalPrice | currency }}
+              </span>
+            </div>
+            <div class="product-rating" *ngIf="product.rating">
+              <div class="stars">
+                <ion-icon
+                  *ngFor="let star of getRatingStars(product.rating); let i = index"
+                  [name]="star === 1 ? 'star' : (star === 0.5 ? 'star-half' : 'star-outline')">
+                </ion-icon>
+              </div>
+              <span class="rating-count">({{ product.reviewCount }})</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Back to School Offers Panel -->
+  <div class="panel" *ngIf="schoolCategories.length > 0">
+    <div class="panel-header">
+      <h2 class="panel-title">Back to school offers have arrived!</h2>
+    </div>
+    <div class="panel-content">
+      <div class="category-grid">
+        <div class="category-card" *ngFor="let category of schoolCategories" [routerLink]="['/categories', category.id]">
+          <div class="category-image">
+            <img [src]="category.imageUrl || 'assets/images/placeholder.png'" [alt]="category.name" />
+          </div>
+          <h3 class="category-name">{{ category.name }}</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty state message (optional) -->
+  <div class="panel" *ngIf="schoolCategories.length === 0">
+    <div class="panel-header">
+      <h2 class="panel-title">Back to school offers have arrived!</h2>
+    </div>
+    <div class="panel-content">
+      <div class="ion-text-center ion-padding">
+        <ion-icon name="school-outline" size="large"></ion-icon>
+        <h3>No school categories available yet</h3>
+        <p>Check back soon for our back-to-school offers!</p>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<!-- Bottom Tab Bar -->
+<ion-tab-bar slot="bottom" class="custom-tab-bar">
+  <ion-tab-button tab="home" [routerLink]="['/home']" class="tab-button">
+    <ion-icon name="home"></ion-icon>
+    <ion-label>Home</ion-label>
+  </ion-tab-button>
+
+  <ion-tab-button tab="categories" [routerLink]="['/categories']" class="tab-button">
+    <ion-icon name="apps"></ion-icon>
+    <ion-label>Categories</ion-label>
+  </ion-tab-button>
+
+  <ion-tab-button tab="cart" [routerLink]="['/cart']" class="tab-button">
+    <ion-icon name="cart"></ion-icon>
+    <ion-label>Cart</ion-label>
+    <ion-badge *ngIf="cartItemCount > 0" color="danger">{{ cartItemCount }}</ion-badge>
+  </ion-tab-button>
+
+  <ion-tab-button tab="menu" [routerLink]="['/menu']" class="tab-button">
+    <ion-icon name="menu"></ion-icon>
+    <ion-label>Menu</ion-label>
+  </ion-tab-button>
+</ion-tab-bar>

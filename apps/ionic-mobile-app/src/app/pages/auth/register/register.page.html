@@ -1,0 +1,80 @@
+<!-- Add to template for debugging -->
+<ng-container *ngIf="false">
+  <pre>Form Status: {{ registerForm.status }}</pre>
+  <pre>Form Errors: {{ registerForm.errors | json }}</pre>
+</ng-container>
+
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/login"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Create Account</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="registerForm" (ngSubmit)="register()">
+    <ion-list>
+
+      <!-- First Name Field -->
+      <ion-item>
+        <ion-label position="floating">First Name</ion-label>
+        <ion-input formControlName="firstName" type="text"></ion-input>
+        <ion-note *ngIf="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched" color="danger">
+          First Name is required
+        </ion-note>
+      </ion-item>
+
+      <!-- Last Name Field -->
+      <ion-item>
+        <ion-label position="floating">Last Name</ion-label>
+        <ion-input formControlName="lastName" type="text"></ion-input>
+      </ion-item>
+
+      <!-- Email Field -->
+      <ion-item>
+        <ion-label position="floating">Email</ion-label>
+        <ion-input formControlName="email" type="email"></ion-input>
+        <ion-note *ngIf="registerForm.get('email')?.hasError('email') && registerForm.get('email')?.touched" color="danger">
+          Please enter a valid email
+        </ion-note>
+        <ion-note *ngIf="registerForm.get('email')?.hasError('required') && registerForm.get('email')?.touched" color="danger">
+          Email is required
+        </ion-note>
+      </ion-item>
+
+      <!-- Password Field -->
+      <ion-item>
+        <ion-label position="floating">Password</ion-label>
+        <ion-input formControlName="password" type="password"></ion-input>
+        <ion-note *ngIf="registerForm.get('password')?.hasError('required') && registerForm.get('password')?.touched" color="danger">
+          Password is required
+        </ion-note>
+        <ion-note *ngIf="registerForm.get('password')?.hasError('minlength') && registerForm.get('password')?.touched" color="danger">
+          Minimum 6 characters
+        </ion-note>
+      </ion-item>
+
+      <!-- Confirm Password Field -->
+      <ion-item>
+        <ion-label position="floating">Confirm Password</ion-label>
+        <ion-input formControlName="confirmPassword" type="password"></ion-input>
+        <ion-note *ngIf="registerForm.get('confirmPassword')?.hasError('required') && registerForm.get('confirmPassword')?.touched" color="danger">
+          Please confirm your password
+        </ion-note>
+        <ion-note *ngIf="registerForm.hasError('mismatch')" color="danger">
+          Passwords do not match
+        </ion-note>
+      </ion-item>
+    </ion-list>
+
+    <ion-button
+      type="submit"
+      expand="block"
+      [disabled]="registerForm.invalid || isLoading">
+      <ion-spinner *ngIf="isLoading"></ion-spinner>
+      Create Account
+    </ion-button>
+  </form>
+</ion-content>

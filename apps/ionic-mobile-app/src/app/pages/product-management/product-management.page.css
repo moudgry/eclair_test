@@ -1,0 +1,38 @@
+ion-item-sliding {
+  margin-bottom: 8px;
+}
+
+ion-item {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --inner-padding-end: 0;
+  --border-radius: 8px;
+  --background: var(--ion-color-light);
+  margin-bottom: 8px;
+}
+
+ion-item-option {
+  padding: 0 16px;
+}
+
+ion-grid {
+  padding: 16px;
+}
+
+.image-preview {
+  margin: 16px 0;
+  text-align: center;
+}
+
+.image-preview img {
+  max-width: 100%;
+  max-height: 200px;
+  border-radius: 8px;
+}
+
+ion-thumbnail img {
+  object-fit: cover;
+  height: 60px;
+  width: 60px;
+  border-radius: 4px;
+}

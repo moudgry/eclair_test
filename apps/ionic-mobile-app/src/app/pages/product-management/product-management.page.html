@@ -1,0 +1,148 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Product Management</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="startCreate()">
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- Search bar -->
+  <ion-searchbar
+    [(ngModel)]="searchQuery"
+    (ionInput)="searchProducts()"
+    placeholder="Search products">
+  </ion-searchbar>
+
+  <!-- Loading spinner -->
+  <div class="ion-text-center" *ngIf="isLoading">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+
+  <!-- Form for create/edit -->
+  <ion-grid *ngIf="isEditing || isCreating">
+    <ion-row>
+      <ion-col size="12" size-md="6">
+        <form [formGroup]="productForm">
+          <ion-item>
+            <ion-label position="stacked">Name</ion-label>
+            <ion-input formControlName="name"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">SKU</ion-label>
+            <ion-input formControlName="sku"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">Original Price</ion-label>
+            <ion-input type="number" formControlName="originalPrice" min="0" step="0.01"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">Discount (%)</ion-label>
+            <ion-input type="number" formControlName="discount" min="0" max="100" step="1"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">Sale Price</ion-label>
+            <ion-input type="number" formControlName="price" readonly></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">Stock</ion-label>
+            <ion-input type="number" formControlName="stock" min="0"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Category</ion-label>
+            <ion-select formControlName="categoryId" placeholder="Select category">
+              <ion-select-option *ngFor="let category of categories" [value]="category.id">
+                {{ category.name }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Featured</ion-label>
+            <ion-checkbox slot="end" formControlName="isFeatured"></ion-checkbox>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Active</ion-label>
+            <ion-checkbox slot="end" formControlName="isActive"></ion-checkbox>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">Short Description</ion-label>
+            <ion-textarea formControlName="shortDescription" rows="2"></ion-textarea>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">Description</ion-label>
+            <ion-textarea formControlName="description" rows="4"></ion-textarea>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">Image URL</ion-label>
+            <ion-input formControlName="imageUrl"></ion-input>
+          </ion-item>
+        </form>
+      </ion-col>
+
+      <ion-col size="12" size-md="6">
+        <div class="image-preview" *ngIf="productForm.get('imageUrl')?.value">
+          <img [src]="productForm.get('imageUrl')?.value" alt="Product image preview" onerror="this.style.display='none'">
+        </div>
+
+        <ion-button expand="block" (click)="saveProduct()">Save</ion-button>
+        <ion-button expand="block" fill="outline" (click)="cancelEdit()">Cancel</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- List of products -->
+  <ion-list *ngIf="!isEditing && !isCreating && !isLoading">
+    <ion-item-sliding *ngFor="let product of filteredProducts">
+      <ion-item>
+        <ion-thumbnail slot="start">
+          <img [src]="product.imageUrl || 'assets/images/placeholder.png'" (error)="product.imageUrl = 'assets/images/placeholder.png'" alt="Product image">
+        </ion-thumbnail>
+        <ion-label>
+          <h2>{{ product.name }}</h2>
+          <p>{{ product.shortDescription }}</p>
+          <p><strong>{{ product.price | currency }}</strong></p>
+          <p>Stock: {{ product.stock }}</p>
+        </ion-label>
+        <ion-note slot="end" *ngIf="product.isFeatured">Featured</ion-note>
+      </ion-item>
+      <ion-item-options side="end">
+        <ion-item-option color="primary" (click)="startEdit(product)">
+          <ion-icon slot="icon-only" name="create"></ion-icon>
+        </ion-item-option>
+        <ion-item-option color="danger" (click)="confirmDelete(product)">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <!-- Empty state -->
+  <div *ngIf="!isEditing && !isCreating && !isLoading && filteredProducts.length === 0" class="ion-text-center ion-padding">
+    <ion-text color="medium">
+      <p>No products found</p>
+      <ion-button (click)="startCreate()">Create First Product</ion-button>
+    </ion-text>
+  </div>
+
+  <!-- Delete confirmation alert -->
+  <ion-alert
+    [isOpen]="showDeleteAlert"
+    header="Confirm Delete"
+    [message]="'Are you sure you want to delete ' + (productToDelete?.name || 'this product') + '?'"
+    [buttons]="deleteAlertButtons"
+  ></ion-alert>
+</ion-content>

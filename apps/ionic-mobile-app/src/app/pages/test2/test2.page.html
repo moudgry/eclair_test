@@ -1,0 +1,75 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Eclair Commerce</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/cart">
+        <ion-icon name="cart" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <ion-img src="assets/images/hero-banner.jpg"></ion-img>
+    <div class="hero-content">
+      <h1>Summer Collection</h1>
+      <ion-button fill="solid" color="light" routerLink="/products">
+        Shop Now
+      </ion-button>
+    </div>
+  </div>
+
+  <!-- Categories -->
+  <!--
+  <ion-grid class="categories">
+    <ion-row>
+      <ion-col size="6" *ngFor="let category of categories; trackBy: trackByCategoryId">
+        <ion-card (click)="navigateToCategory(category.id)">
+          <ion-img [src]="category.image"></ion-img>
+          <ion-card-header>
+            <ion-card-title>{{ category.name }}</ion-card-title>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  -->
+  <ion-grid class="categories">
+    <ion-row>
+      <ion-col size="6" *ngFor="let category of categories; trackBy: trackByCategoryId">
+        <ion-card (click)="navigateToCategory(category.id)">
+          <ion-img [src]="category.imageUrl || 'assets/category-placeholder.png'"></ion-img>
+          <ion-card-header>
+            <ion-card-title>{{ category.name }}</ion-card-title>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Featured Products -->
+  <ion-list-header>
+    <ion-label>Featured Products</ion-label>
+  </ion-list-header>
+
+  <swiper-container [config]="swiperConfig">
+    <swiper-slide *ngFor="let product of featuredProducts; trackBy: trackByProductId">
+      <app-product-card [product]="product"></app-product-card>
+    </swiper-slide>
+  </swiper-container>
+
+  <!-- New Arrivals -->
+  <ion-list-header>
+    <ion-label>New Arrivals</ion-label>
+  </ion-list-header>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6" *ngFor="let product of newArrivals; trackBy: trackByProductId">
+        <app-product-card [product]="product"></app-product-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

@@ -1,0 +1,20 @@
+ion-item-sliding {
+  margin-bottom: 8px;
+}
+
+ion-item {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --inner-padding-end: 0;
+  --border-radius: 8px;
+  --background: var(--ion-color-light);
+  margin-bottom: 8px;
+}
+
+ion-item-option {
+  padding: 0 16px;
+}
+
+ion-grid {
+  padding: 16px;
+}

@@ -1,0 +1,87 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Category Management</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="startCreate()">
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Search bar -->
+  <ion-searchbar
+    [(ngModel)]="searchQuery"
+    (ionInput)="searchCategories()"
+    placeholder="Search categories">
+  </ion-searchbar>
+
+  <!-- Loading spinner -->
+  <div class="ion-text-center" *ngIf="isLoading">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+
+  <!-- Form for create/edit -->
+  <ion-grid *ngIf="isEditing || isCreating">
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label position="stacked">Name</ion-label>
+          <ion-input [(ngModel)]="name"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Description</ion-label>
+          <ion-input [(ngModel)]="description"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Image URL</ion-label>
+          <ion-input [(ngModel)]="imageUrl"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>Featured</ion-label>
+          <ion-checkbox slot="end" [(ngModel)]="isFeatured"></ion-checkbox>
+        </ion-item>
+        <ion-button expand="block" (click)="saveCategory()">Save</ion-button>
+        <ion-button expand="block" fill="outline" (click)="cancelEdit()">Cancel</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- List of categories -->
+  <ion-list *ngIf="!isEditing && !isCreating && !isLoading">
+    <ion-item-sliding *ngFor="let category of filteredCategories; trackBy: trackByCategoryId">
+      <ion-item>
+        <ion-label>
+          <h2>{{ category.name }}</h2>
+          <p>{{ category.description }}</p>
+        </ion-label>
+        <ion-note slot="end" *ngIf="category.isFeatured">Featured</ion-note>
+      </ion-item>
+      <ion-item-options side="end">
+        <ion-item-option color="primary" (click)="startEdit(category)">
+          <ion-icon slot="icon-only" name="create"></ion-icon>
+        </ion-item-option>
+        <ion-item-option color="danger" (click)="confirmDelete(category)">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <!-- Empty state -->
+  <div *ngIf="!isEditing && !isCreating && !isLoading && filteredCategories.length === 0" class="ion-text-center ion-padding">
+    <ion-text color="medium">
+      <p>No categories found</p>
+      <ion-button (click)="startCreate()">Create First Category</ion-button>
+    </ion-text>
+  </div>
+
+  <!-- Delete confirmation alert -->
+  <ion-alert
+    [isOpen]="showDeleteAlert"
+    header="Confirm Delete"
+    [message]="'Are you sure you want to delete ' + (categoryToDelete?.name || 'this category') + '?'"
+    [buttons]="deleteAlertButtons"
+  ></ion-alert>
+</ion-content>

@@ -1,0 +1,11 @@
+{
+  "name": "ionic-mobile-app",
+  "dependencies": {
+    "@capacitor/android": "../../node_modules/@capacitor/android",
+    "@capacitor/ios": "../../node_modules/@capacitor/ios",
+    "ionic-mobile-app": "file:"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.4.3"
+  }
+}

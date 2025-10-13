@@ -1,0 +1,30 @@
+<ion-item>
+  <ion-thumbnail slot="start">
+    <ion-img [src]="item.product.imageUrl || 'assets/images/placeholder.png'"></ion-img>
+  </ion-thumbnail>
+  <ion-label>
+    <h3>{{ item.product.name }}</h3>
+    <p>{{ item.product.price | currency }} × {{ item.quantity }}</p>
+    <p><strong>Total: {{ item.product.price * item.quantity | currency }}</strong></p>
+  </ion-label>
+  <ion-buttons slot="end">
+    <ion-item>
+      <ion-button (click)="updateQuantity(item.quantity - 1)" fill="clear">
+        <ion-icon name="remove"></ion-icon>
+      </ion-button>
+      <ion-input
+        type="number"
+        [value]="item.quantity"
+        (ionChange)="updateQuantity($event.detail.value)"
+        min="1"
+        style="width: 40px; text-align: center">
+      </ion-input>
+      <ion-button (click)="updateQuantity(item.quantity + 1)" fill="clear">
+        <ion-icon name="add"></ion-icon>
+      </ion-button>
+    </ion-item>
+    <ion-button (click)="remove.emit(item.product.id)" fill="clear" color="danger">
+      <ion-icon name="trash"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+</ion-item>

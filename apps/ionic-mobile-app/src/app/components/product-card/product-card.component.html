@@ -1,0 +1,34 @@
+<ion-card (click)="viewDetails()">
+  <ion-img [src]="product.imageUrl || 'assets/images/placeholder.png'"></ion-img>
+  <ion-card-header>
+    <ion-card-title>{{ product.name | truncate:25 }}</ion-card-title>
+    <ion-card-subtitle class="current-price" *ngIf="!product.discount || product.discount <= 0">{{ product.price | currency }}</ion-card-subtitle>
+
+    <ion-card-subtitle class="current-price product-price" *ngIf="product.discount && product.discount > 0">
+      <span class="current-price" *ngIf="product.discount && product.discount > 0">
+        {{ product.price | currency }}
+      </span>
+      <span class="original-price" *ngIf="product.discount && product.discount > 0">
+        {{ product.originalPrice | currency }}
+      </span>
+      <span class="current-price" *ngIf="product.discount === 0">
+        {{ product.price | currency }}
+      </span>
+      <div class="discount-tag" *ngIf="product.discount && product.discount > 0">
+        -{{ product.discount }}%
+      </div>
+    </ion-card-subtitle>
+  </ion-card-header>
+  <ion-card-content>
+    <p>{{ product.description | truncate:100 }}</p>
+    <!--<ion-button
+      *ngIf="showActions"
+      expand="block"
+      color="primary"
+      (click)="addToCart($event)"
+      stopPropagation="true"
+      (ionClick)="$event.stopPropagation()">
+      Add to Cart
+    </ion-button>-->
+  </ion-card-content>
+</ion-card>

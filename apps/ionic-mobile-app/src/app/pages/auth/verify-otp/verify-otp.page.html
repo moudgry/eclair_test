@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/forgot-password"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Verify OTP</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-label position="stacked">Enter 4-digit OTP sent to {{email}}</ion-label>
+      <ion-input
+        [(ngModel)]="otp"
+        maxlength="4"
+        placeholder="1234"
+        (ionInput)="onOtpInput($event)"
+      ></ion-input>
+      <!--
+        type="number"
+        inputmode="numeric"
+      -->
+    </ion-item>
+  </ion-list>
+
+  <ion-button
+    expand="block"
+    (click)="verifyOtp()"
+    [disabled]="!otp || otp.length !== 4"
+  >
+    Verify OTP
+    <ion-spinner *ngIf="isVerifying"></ion-spinner>
+  </ion-button>
+
+  <div class="resend-section" *ngIf="showResend">
+    <p>Didn't receive the OTP?</p>
+    <ion-button fill="clear" (click)="resendOtp()">Resend OTP</ion-button>
+  </div>
+</ion-content>
