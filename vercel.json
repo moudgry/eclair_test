@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "npx nx build angular-web-app --prod",
-  "outputDirectory": "dist/apps/angular-web-app",
+  "buildCommand": "npx nx build ionic-mobile-app --prod",
+  "outputDirectory": "dist/apps/ionic-mobile-app",
   "installCommand": "npm install"
 }
