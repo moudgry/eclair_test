@@ -1,3 +1,4 @@
+import pg from 'pg';
 import { Sequelize } from 'sequelize-typescript';
 import { UserModel } from '../app/models/user.model';
 import { ProductModel } from '../app/models/product.model';
@@ -43,6 +44,7 @@ const getDbConfig = () => {
 
 export const sequelize = new Sequelize({
   ...getDbConfig(),
+  dialectModule: pg,
   models: [UserModel, CategoryModel, ProductModel, CartModel, CartItemModel, OrderModel, OrderItemModel],
   logging: process.env.NODE_ENV === 'development' ? console.log : false,
   pool: {
