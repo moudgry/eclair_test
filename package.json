@@ -13,7 +13,6 @@
     "start:api2": "npx nx serve api",
     "start:web2": "npx nx serve eclair_demo",
     "start:ionic2": "npx nx serve mobile-app",
-
     "build:core": "nx build core",
     "start": "npm run start:backend:prod",
     "start:web": "nx serve angular-web-app",
@@ -240,8 +239,8 @@
   "overrides_": {
     "fast-redact": "^3.5.0",
     "on-headers": "1.1.0",
-    "removed_@nx/express":"^20.8.2",
-    "removed_verdaccio":"^6.0.5"
+    "removed_@nx/express": "^20.8.2",
+    "removed_verdaccio": "^6.0.5"
   },
   "engines_": {
     "node": ">=22.20.0",
