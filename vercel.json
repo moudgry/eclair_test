@@ -2,12 +2,12 @@
   "version": 2,
   "builds": [
     {
-      "src": "apps/api/src/main.ts",
+      "src": "apps/backend/src/main.ts",
       "use": "@vercel/node",
       "config": {
         "maxLambdaSize": "15mb",
         "includeFiles": [
-          "dist/apps/api/**"
+          "dist/apps/backend/**"
         ]
       }
     }
@@ -15,10 +15,10 @@
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "apps/api/src/main.ts"
+      "dest": "apps/backend/src/main.ts"
     }
   ],
   "installCommand": "npm install",
-  "buildCommand": "npx nx build api --prod",
-  "outputDirectory": "dist/apps/api"
+  "buildCommand": "npx nx build backend --prod",
+  "outputDirectory": "dist/apps/backend"
 }
