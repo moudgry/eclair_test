@@ -1,7 +1,6 @@
 {
   "name": "eclair_commerce",
   "version": "1.0.0",
-  "type": "commonjs",
   "private": true,
   "description": "Cross-platform e-commerce solution",
   "author": "Mahmoud ElGharably",
@@ -14,7 +13,7 @@
     "start:web2": "npx nx serve eclair_demo",
     "start:ionic2": "npx nx serve mobile-app",
     "build:core": "nx build core",
-    "start": "npm run start:backend:prod",
+    "start_": "npm run start:backend:prod",
     "start:web": "nx serve angular-web-app",
     "build:web": "nx build angular-web-app",
     "build:web:pwa": "nx build angular-web-app --configuration=production,pwa",
