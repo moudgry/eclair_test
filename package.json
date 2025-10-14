@@ -15,7 +15,7 @@
     "start:ionic2": "npx nx serve mobile-app",
 
     "build:core": "nx build core",
-    "start": "npm run start:web",
+    "start": "npm run start:backend:prod",
     "start:web": "nx serve angular-web-app",
     "build:web": "nx build angular-web-app",
     "build:web:pwa": "nx build angular-web-app --configuration=production,pwa",
